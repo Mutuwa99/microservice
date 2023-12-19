@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  frontend:
+    # container_name: frontend_microservice_php
+    build: ./frontend
+    # deploy:
+    #   replicas: 
+    ports:
+      - "8080:80"  # Map host port 8080 to container port 80
+
+  users:
+    container_name: backen_microservice_Django
+    build: ./users
+    ports:
+      - "8000:8000"  # Map host port 8000 to container port 8000
+
+  nginx-reverse-proxy:
+    image: nginx
+    container_name: nginx-reverse-proxy
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - frontend  
