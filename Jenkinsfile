@@ -24,20 +24,19 @@ pipeline {
             }
         }
 
-        stage('Build and Push Docker Image') {
+    stages {
+        stage('Build Docker Image') {
             steps {
                 script {
-                    // Build and tag the Docker image
-                    sh "docker build -t ${DOCKER_IMAGE_NAME}:${BUILD_NUMBER} ."
-                    
-                    // Log in to Docker Hub
-                    sh "docker login -u ${DOCKER_HUB_CREDENTIALS_USR} -p ${DOCKER_HUB_CREDENTIALS_PSW}"
-
-                    // Push the Docker image to Docker Hub
-                    sh "docker push ${DOCKER_IMAGE_NAME}:${BUILD_NUMBER}"
+                    // Run Docker-in-Docker
+                    docker.image('docker:dind').inside('-u root') {
+                        // Build and tag Docker image
+                        sh 'docker build -t isaya:10 .'
+                    }
                 }
             }
         }
+    }
 
         stage('OWASP Dependency Check') {
             steps {
