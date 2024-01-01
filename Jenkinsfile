@@ -24,19 +24,19 @@ pipeline {
             }
         }
 
-    stages {
-        stage('Build Docker Image') {
-            steps {
-                script {
-                    // Run Docker-in-Docker
-                    docker.image('docker:dind').inside('-u root') {
-                        // Build and tag Docker image
-                        sh 'docker build -t isaya:10 .'
+        stages {
+            stage('Build Docker Image') {
+                steps {
+                    script {
+                        // Run Docker-in-Docker
+                        docker.image('docker:dind').inside('-u root') {
+                            // Build and tag Docker image
+                            sh 'docker build -t isaya:10 .'
+                        }
                     }
                 }
             }
         }
-    }
 
         stage('OWASP Dependency Check') {
             steps {
