@@ -4,7 +4,6 @@ pipeline {
     environment {
         SONAR_SCANNER_HOME = tool 'sonarqube'
         DOCKER_HUB_CREDENTIALS = credentials('mydocker')
-        // LINUX_SERVER_CREDENTIALS = credentials('linux-server-credentials-id')
         DOCKER_IMAGE_NAME = 'isaya'
     }
 
@@ -28,9 +27,14 @@ pipeline {
         stage('Build and Push Docker Image') {
             steps {
                 script {
-                    // Assuming your Docker Compose file is in the root directory
-                    sh "docker-compose build"
-                    sh "docker-compose push"
+                    // Build and tag the Docker image
+                    sh "docker build -t ${DOCKER_IMAGE_NAME}:${BUILD_NUMBER} ."
+                    
+                    // Log in to Docker Hub
+                    sh "docker login -u ${DOCKER_HUB_CREDENTIALS_USR} -p ${DOCKER_HUB_CREDENTIALS_PSW}"
+
+                    // Push the Docker image to Docker Hub
+                    sh "docker push ${DOCKER_IMAGE_NAME}:${BUILD_NUMBER}"
                 }
             }
         }
@@ -38,8 +42,8 @@ pipeline {
         stage('OWASP Dependency Check') {
             steps {
                 script {
-                    // Assuming your Docker Compose file is in the root directory
-                   sh "docker-compose run --rm frontend owasp-dependency-check --scan /frontend --format ALL"
+                    // Run OWASP Dependency Check
+                    sh "docker run --rm ${DOCKER_IMAGE_NAME}:${BUILD_NUMBER} owasp-dependency-check --scan /frontend --format ALL"
                 }
             }
         }
@@ -47,23 +51,8 @@ pipeline {
         stage('Trivy Scan') {
             steps {
                 script {
-                    // Assuming your Docker Compose file is in the root directory
-                    sh "docker-compose run --rm trivy-scanner trivy --input ${DOCKER_IMAGE_NAME}:${BUILD_NUMBER} --format json -o trivy_results.json"
-                }
-            }
-        }
-
-        stage('Deploy to Linux Server') {
-            when {
-                expression { currentBuild.resultIsBetterOrEqualTo('SUCCESS') }
-            }
-            steps {
-                script {
-                    // Assuming your Docker Compose file is in the root directory
-                    sshagent(credentials: [LINUX_SERVER_CREDENTIALS]) {
-                        sh "scp -r . user@linux-server:/path/to/deploy"
-                        sh "ssh user@linux-server 'cd /path/to/deploy && docker-compose up -d'"
-                    }
+                    // Run Trivy Scan
+                    sh "docker run --rm aquasec/trivy:latest --input ${DOCKER_IMAGE_NAME}:${BUILD_NUMBER} --format json -o trivy_results.json"
                 }
             }
         }
