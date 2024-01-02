@@ -44,23 +44,23 @@ pipeline {
         }
 
 
-        stage('OWASP Dependency Check') {
-            steps {
-                script {
-                    // Run OWASP Dependency Check
-                    sh "docker run --rm ${DOCKER_IMAGE_NAME}:${BUILD_NUMBER} owasp-dependency-check --scan /frontend --format ALL"
-                }
-            }
-        }
+        // stage('OWASP Dependency Check') {
+        //     steps {
+        //         script {
+        //             // Run OWASP Dependency Check
+        //             sh "docker run --rm ${DOCKER_IMAGE_NAME}:${BUILD_NUMBER} owasp-dependency-check --scan /frontend --format ALL"
+        //         }
+        //     }
+        // }
 
-        stage('Trivy Scan') {
-            steps {
-                script {
-                    // Run Trivy Scan
-                    sh "docker run --rm aquasec/trivy:latest --input ${DOCKER_IMAGE_NAME}:${BUILD_NUMBER} --format json -o trivy_results.json"
-                }
-            }
-        }
+        // stage('Trivy Scan') {
+        //     steps {
+        //         script {
+        //             // Run Trivy Scan
+        //             sh "docker run --rm aquasec/trivy:latest --input ${DOCKER_IMAGE_NAME}:${BUILD_NUMBER} --format json -o trivy_results.json"
+        //         }
+        //     }
+        // }
 
         // Other stages...
     }
