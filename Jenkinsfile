@@ -1,5 +1,5 @@
 pipeline {
-    agent docker
+    agent any
 
     environment {
         // SONAR_SCANNER_HOME = tool 'sonarqube'
