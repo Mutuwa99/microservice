@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        SONAR_SCANNER_HOME = tool 'sonarqube'
+        // SONAR_SCANNER_HOME = tool 'sonarqube'
         DOCKER_HUB_CREDENTIALS = credentials('mydocker')
         imagename = 'isaya'
         registry = 'docker.io'
