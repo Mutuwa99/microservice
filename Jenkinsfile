@@ -25,7 +25,7 @@ pipeline {
         //     }
         // }
 
-       stage('Build Docker Image') {
+        stage('Build Docker Image') {
             steps {
                 script {
                     // Run Docker-in-Docker
@@ -36,8 +36,6 @@ pipeline {
                 }
             }
         }
-    }
-
 
         // stage('OWASP Dependency Check') {
         //     steps {
