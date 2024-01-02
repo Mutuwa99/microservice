@@ -5,6 +5,7 @@ pipeline {
         SONAR_SCANNER_HOME = tool 'sonarqube'
         DOCKER_HUB_CREDENTIALS = credentials('mydocker')
         DOCKER_IMAGE_NAME = 'isaya'
+        registry = 'docker.io'
     }
 
     stages {
