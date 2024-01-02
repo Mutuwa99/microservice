@@ -25,24 +25,18 @@ pipeline {
         //     }
         // }
 
-        stage('Build, Push, and Remove Docker Images') {
+       stage('Build Docker Image') {
             steps {
                 script {
-                    // Build Docker image
-                    def customImage = docker.build("${registry}/${imagename}:${BUILD_NUMBER}")
-        
-                    // Push the built image to the registry
-                    docker.withRegistry('', DOCKER_HUB_CREDENTIALS) {
-                        customImage.push('latest')
-                        customImage.push("${BUILD_NUMBER}")
+                    // Run Docker-in-Docker
+                    docker.image('docker:dind').inside('-u root') {
+                        // Build and tag Docker image
+                        sh 'docker build -t docker.io/isaya:18 .'
                     }
-        
-                    // Remove unused local Docker images
-                    sh "docker rmi ${registry}/${imagename}:${BUILD_NUMBER}"
-                    sh "docker rmi ${registry}/${imagename}:latest"
                 }
             }
         }
+    }
 
 
         // stage('OWASP Dependency Check') {
