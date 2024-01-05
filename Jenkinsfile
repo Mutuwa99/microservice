@@ -76,7 +76,7 @@ pipeline {
         imagename = 'isaya'
         registry = 'docker.io'
         imageTag = 'latest'
-        dockerfilePath = 'path/to/your/dockerfile'
+        dockerfilePath = 'frontend/dockerfile'
     }
 
     stages {
