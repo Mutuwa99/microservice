@@ -76,6 +76,7 @@ pipeline {
         imagename = 'isaya'
         registry = 'docker.io'
         imageTag = 'latest'
+        DOCKER_HUB_USERNAME = 'mutuwa12'
     }
 
     stages {
@@ -102,7 +103,7 @@ pipeline {
                     // Log in to Docker Hub
                     docker.withRegistry('https://index.docker.io/v1/', 'mydocker') {
                         // Push Docker image to Docker Hub
-                        sh "docker push ${registry}/${imagename}:${imageTag}"
+                        sh "docker push ${registry}/${DOCKER_HUB_USERNAME}/${imagename}:${imageTag}"
                     }
                 }
             }
