@@ -165,7 +165,7 @@ pipeline {
             steps {
                 script {
                     // Run OWASP Dependency Check
-                    sh "docker run --rm ${registry}/${DOCKER_HUB_USERNAME}/${imagename}:${imageTag} owasp-dependency-check --scan ${WORKSPACE} --format ALL"
+                    dependencyCheckPublisher pattern: 'dependency-check-report.xml'
                 }
             }
         }
