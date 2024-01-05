@@ -122,6 +122,80 @@
 //     }
 // }
 
+// pipeline {
+//     agent any
+
+//     environment {
+//         DOCKER_HUB_CREDENTIALS = credentials('mydocker')
+//         imagename = 'isaya'
+//         registry = 'docker.io'
+//         imageTag = 'latest'
+//         DOCKER_HUB_USERNAME = 'mutuwa12'
+//     }
+
+//     stages {
+//         stage('Checkout Code') {
+//             steps {
+//                 script {
+//                     checkout scm
+//                 }
+//             }
+//         }
+
+//         stage('Build Docker Image') {
+//             steps {
+//                 script {
+//                     // Build and tag Docker image
+//                     sh "docker build -t ${registry}/${DOCKER_HUB_USERNAME}/${imagename}:${imageTag} ."
+//                 }
+//             }
+//         }
+
+//         stage('Trivy Scan') {
+//             steps {
+//                 script {
+//                     // Run Trivy Scan
+//                     sh "trivy image ${registry}/${DOCKER_HUB_USERNAME}/${imagename}:${imageTag}"
+
+//                 }
+//             }
+//         }
+
+//         stage('OWASP Dependency Check') {
+//             steps {
+//                 script {
+//                     // Run OWASP Dependency Check
+//                     dependencyCheckPublisher pattern: 'dependency-check-report.xml'
+//                 }
+//             }
+//         }
+
+//         stage('Push Docker Image to Docker Hub') {
+//             steps {
+//                 script {
+//                     // Log in to Docker Hub
+//                     docker.withRegistry('https://index.docker.io/v1/', 'mydocker') {
+//                         // Push Docker image to Docker Hub
+//                         sh "docker push ${registry}/${DOCKER_HUB_USERNAME}/${imagename}:${imageTag}"
+//                     }
+//                 }
+//             }
+//         }
+
+//         // Add other stages as needed...
+//     }
+
+//     post {
+//         success {
+//             echo 'Pipeline successful!'
+//         }
+//         failure {
+//             echo 'Pipeline failed!'
+//         }
+//     }
+// }
+
+
 pipeline {
     agent any
 
@@ -156,7 +230,6 @@ pipeline {
                 script {
                     // Run Trivy Scan
                     sh "trivy image ${registry}/${DOCKER_HUB_USERNAME}/${imagename}:${imageTag}"
-
                 }
             }
         }
@@ -164,7 +237,13 @@ pipeline {
         stage('OWASP Dependency Check') {
             steps {
                 script {
-                    // Run OWASP Dependency Check
+                    // Run OWASP Dependency Check using the Jenkins workspace
+                    sh "dependency-check.sh --scan ${WORKSPACE} --format XML -f dependency-check-report.xml"
+                    
+                    // Archive Dependency-Check report as an artifact
+                    archiveArtifacts 'dependency-check-report.xml'
+                    
+                    // Publish Dependency-Check results in Jenkins
                     dependencyCheckPublisher pattern: 'dependency-check-report.xml'
                 }
             }
@@ -181,18 +260,17 @@ pipeline {
                 }
             }
         }
-
-        // Add other stages as needed...
     }
 
     post {
         success {
             echo 'Pipeline successful!'
+            // Additional success actions, if needed
         }
         failure {
             echo 'Pipeline failed!'
+            // Additional failure actions, if needed
         }
     }
 }
-
 
