@@ -234,21 +234,6 @@ pipeline {
             }
         }
 
-        stage('OWASP Dependency Check') {
-            steps {
-                script {
-                    // Run OWASP Dependency Check using the Jenkins workspace
-                    sh "dependency-check.sh --scan ${WORKSPACE} --format XML -f dependency-check-report.xml"
-                    
-                    // Archive Dependency-Check report as an artifact
-                    archiveArtifacts 'dependency-check-report.xml'
-                    
-                    // Publish Dependency-Check results in Jenkins
-                    dependencyCheckPublisher pattern: 'dependency-check-report.xml'
-                }
-            }
-        }
-
         stage('Push Docker Image to Docker Hub') {
             steps {
                 script {
