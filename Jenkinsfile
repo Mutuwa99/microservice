@@ -92,7 +92,7 @@ pipeline {
             steps {
                 script {
                     // Build and tag Docker image
-                    sh "docker build -t ${registry}/${imagename}:${imageTag} ."
+                    sh "docker build -t ${registry}/${DOCKER_HUB_USERNAME}/${imagename}:${imageTag} ."
                 }
             }
         }
