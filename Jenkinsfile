@@ -31,7 +31,7 @@ pipeline {
                     // Run Docker-in-Docker
                     docker.image('docker:dind').inside('-u root') {
                         // Build and tag Docker image
-                        sh 'docker build -t docker.io/isaya:18 .'
+                        sh 'sudo docker build -t docker.io/isaya:18 .'
                     }
                 }
             }
