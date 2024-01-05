@@ -155,7 +155,8 @@ pipeline {
             steps {
                 script {
                     // Run Trivy Scan
-                    sh "docker run --rm aquasec/trivy:latest --input ${registry}/${DOCKER_HUB_USERNAME}/${imagename}:${imageTag} --format json -o trivy_results.json"
+                    sh "trivy image ${registry}/${DOCKER_HUB_USERNAME}/${imagename}:${imageTag}"
+
                 }
             }
         }
