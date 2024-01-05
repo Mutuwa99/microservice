@@ -76,6 +76,7 @@ pipeline {
         imagename = 'isaya'
         registry = 'docker.io'
         imageTag = 'latest'
+        dockerfilePath = 'path/to/your/dockerfile'
     }
 
     stages {
@@ -90,8 +91,8 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    // Build and tag Docker image
-                    sh "docker build -t ${registry}/${imagename}:${imageTag} ."
+                    // Build and tag Docker image with custom Dockerfile location
+                    sh "docker build -t ${registry}/${imagename}:${imageTag} -f ${dockerfilePath} ."
                 }
             }
         }
