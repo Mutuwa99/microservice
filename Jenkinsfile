@@ -9,7 +9,7 @@ pipeline {
         imageTag = 'latest'
         DOCKER_HUB_USERNAME = 'mutuwa12'
 
-        REMOTE_USER = 'ubuntu'  // Replace with your EC2 instance's username
+        REMOTE_USER = 'mutuwa'  // Replace with your EC2 instance's username
         SERVER_IP = 'ec2-100-25-218-179.compute-1.amazonaws.com'  // Replace with your EC2 instance's IP
         SSH_CREDENTIALS_ID = 'mysite'
 
