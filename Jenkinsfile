@@ -73,14 +73,14 @@ pipeline {
                         // sh "ssh -i \$SSH_KEY ${REMOTE_USER}@${SERVER_IP} 'echo Successfully logged in'"
                         
                         // Stop and remove existing container
-                        sh "sudo docker stop ${CONTAINER_NAME} || true"
-                        sh "sudo docker rm ${CONTAINER_NAME} || true"
+                        sh "docker stop ${CONTAINER_NAME} || true"
+                        sh "docker rm ${CONTAINER_NAME} || true"
 
                         // Pull the latest image
-                        sh "sudo docker pull ${registry}/${DOCKER_HUB_USERNAME}/${imagename}:${imageTag}"
+                        sh "docker pull ${registry}/${DOCKER_HUB_USERNAME}/${imagename}:${imageTag}"
 
                         // Run a new container
-                        sh "sudo docker run -d --name ${CONTAINER_NAME} -p 80:80 ${registry}/${DOCKER_HUB_USERNAME}/${imagename}:${imageTag}"
+                        sh "docker run -d --name ${CONTAINER_NAME} -p 80:80 ${registry}/${DOCKER_HUB_USERNAME}/${imagename}:${imageTag}"
                     }
                 }
             }
