@@ -220,7 +220,7 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 script {
-                    sh "${SONAR_SCANNER_HOME}/bin/sonar-scanner -Dsonar.projectKey=micro -Dsonar.sources=. -Dsonar.host.url=http://54.174.78.19:9000 -Dsonar.login=sqp_56eddc094d0aa34047df13e2871e8d38d6069abf"
+                    sh "${SONAR_SCANNER_HOME}/bin/sonar-scanner -Dsonar.projectKey=micro -Dsonar.sources=. -Dsonar.host.url=http://54.174.78.19:9000 -Dsonar.login=429c7d33aff19bb3d6f3873929b789293d095618"
                 }
             }
         }
