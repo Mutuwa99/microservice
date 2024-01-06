@@ -230,7 +230,7 @@ pipeline {
                 script {
                     // Build and tag Docker image
                     // sh "docker build -t ${registry}/${DOCKER_HUB_USERNAME}/${imagename}:${imageTag} ."
-                    sh "docker build -t ${registry}/${DOCKER_HUB_USERNAME}/${imagename}:${imageTag} -f frontend/Dockerfile ${WORKSPACE}"
+                    sh "docker build -t ${registry}/${DOCKER_HUB_USERNAME}/${imagename}:${imageTag} -f /frontend/Dockerfile /frontend"
 
                 }
             }
