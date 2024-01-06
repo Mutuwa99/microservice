@@ -230,7 +230,7 @@ pipeline {
                 script {
                     // Build and tag Docker image
                     // sh "docker build -t ${registry}/${DOCKER_HUB_USERNAME}/${imagename}:${imageTag} ."
-                    sh "docker build -t ${registry}/${DOCKER_HUB_USERNAME}/${imagename}:${imageTag} -f /frontend/Dockerfile /frontend"
+                    sh "docker build -t ${registry}/${DOCKER_HUB_USERNAME}/${imagename}:${imageTag} -f frontend/Dockerfile ${WORKSPACE}"
 
                 }
             }
@@ -251,9 +251,7 @@ pipeline {
                     // Log in to Docker Hub
                     docker.withRegistry('https://index.docker.io/v1/', 'mydocker') {
                         // Push Docker image to Docker Hub
-                        // sh "docker push ${registry}/${DOCKER_HUB_USERNAME}/${imagename}:${imageTag}"
-                        sh "docker build -t ${registry}/${DOCKER_HUB_USERNAME}/${imagename}:${imageTag} -f /frontend/Dockerfile /workspace"
-
+                        sh "docker push ${registry}/${DOCKER_HUB_USERNAME}/${imagename}:${imageTag}"
                     }
                 }
             }
