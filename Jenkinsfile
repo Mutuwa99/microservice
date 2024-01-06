@@ -83,7 +83,7 @@ pipeline {
                         sh "ssh -i \$SSH_KEY ${REMOTE_USER}@${SERVER_IP} 'docker pull ${registry}/${DOCKER_HUB_USERNAME}/${imagename}:${imageTag}'"
                         
                         // Run a new container
-                        sh "ssh -i \$SSH_KEY ${REMOTE_USER}@${SERVER_IP} 'docker run -d --name ${CONTAINER_NAME} -p 80:80 ${registry}/${DOCKER_HUB_USERNAME}/${imagename}:${imageTag}'"
+                        sh "ssh -i \$SSH_KEY ${REMOTE_USER}@${SERVER_IP} 'docker run -d --name ${CONTAINER_NAME} -p 8000:8000 ${registry}/${DOCKER_HUB_USERNAME}/${imagename}:${imageTag}'"
                     }
                 }
             }
