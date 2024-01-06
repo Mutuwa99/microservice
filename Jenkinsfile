@@ -11,9 +11,9 @@ pipeline {
 
         REMOTE_USER = 'ubuntu'  // Replace with your EC2 instance's username
         SERVER_IP = 'ec2-100-25-218-179.compute-1.amazonaws.com'  // Replace with your EC2 instance's IP
-        SSH_CREDENTIALS_ID = 'your-ssh-key-credential-id'
+        SSH_CREDENTIALS_ID = 'mysite'
 
-        CONTAINER_NAME = 'your-container-name'  // Replace with your container name
+        CONTAINER_NAME = 'laravel_app'  // Replace with your container name
     }
 
     stages {
