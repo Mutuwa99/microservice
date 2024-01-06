@@ -29,6 +29,6 @@ RUN docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg \
 
     
 COPY --chown=www-data:www-data . /srv/app 
-COPY /frontend/.docker/vhost.conf /etc/apache2/sites-available/000-default.conf 
+COPY .docker/vhost.conf /etc/apache2/sites-available/000-default.conf 
 
 WORKDIR /srv/app 

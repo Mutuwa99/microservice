@@ -202,7 +202,7 @@ pipeline {
     environment {
         SONAR_SCANNER_HOME = tool 'sonarqube'
         DOCKER_HUB_CREDENTIALS = credentials('mydocker')
-        imagename = 'isaya'
+        imagename = 'laravel'
         registry = 'docker.io'
         imageTag = 'latest'
         DOCKER_HUB_USERNAME = 'mutuwa12'
@@ -229,7 +229,9 @@ pipeline {
             steps {
                 script {
                     // Build and tag Docker image
-                    sh "docker build -t ${registry}/${DOCKER_HUB_USERNAME}/${imagename}:${imageTag} ."
+                    // sh "docker build -t ${registry}/${DOCKER_HUB_USERNAME}/${imagename}:${imageTag} ."
+                    sh "docker build -t ${registry}/${DOCKER_HUB_USERNAME}/${imagename}:${imageTag} -f frontend/Dockerfile ${WORKSPACE}"
+
                 }
             }
         }
