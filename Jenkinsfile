@@ -68,8 +68,9 @@ pipeline {
                 script {
                     // Log in to EC2 instance using SSH key
                     withCredentials([file(credentialsId: SSH_CREDENTIALS_ID, variable: 'SSH_KEY')]) {
-                        sh "chmod 600 \$SSH_KEY"
-                        sh "ssh -i \$SSH_KEY ${REMOTE_USER}@${SERVER_IP} 'echo Successfully logged in'"
+                        // sh "chmod 600 \$SSH_KEY"
+                        sh "ssh -i \$SSH_KEY -o StrictHostKeyChecking=no ${REMOTE_USER}@${SERVER_IP} echo Successfully logged in"
+                        // sh "ssh -i \$SSH_KEY ${REMOTE_USER}@${SERVER_IP} 'echo Successfully logged in'"
                         
                         // Stop and remove existing container
                         sh "sudo docker stop ${CONTAINER_NAME} || true"
